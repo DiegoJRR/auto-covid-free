@@ -74,8 +74,9 @@ def get():
     # QR 
     browser.get("https://flpnwc-aj982psom1.dispatcher.us3.hana.ondemand.com/sites/regresoseguro#qr-Display")
     WebDriverWait(browser, 10).until(expected_conditions.visibility_of_element_located((By.ID, "__data48")))
-    browser.set_window_size(400, 800)
     print("here4")
+    
+    browser.set_window_size(400, 800)
     # Screenshot
     qr_image_binary = browser.get_screenshot_as_png()
     print("here5")
