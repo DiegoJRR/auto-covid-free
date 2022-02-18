@@ -15,12 +15,7 @@ import io
 app = Flask(__name__)
 api = Api(app)
 
-@app.route('/')
-def test_endpoint():
-    return {"hey!": "Nothing to see here"}
-
-@app.route('/get-qr')
-def get():
+def get_browser():
     options = Options()
     options.headless = True
     options.add_argument("--disable-gpu")
@@ -37,6 +32,22 @@ def get():
     options.binary_location = "opt/google/chrome/chrome"
     browser = webdriver.Chrome(ChromeDriverManager(version="98.0.4758.102", cache_valid_range=1).install(), options=options)
 
+    return browser
+
+
+@app.route('/')
+def test_endpoint():
+    return {"hey!": "Nothing to see here"}
+
+@app.route('/cache-driver')
+def cache_driver():
+    ChromeDriverManager(version="98.0.4758.102", cache_valid_range=1).install()
+
+    return {"cached": "webdriver"}
+
+@app.route('/get-qr')
+def get():
+    browser = get_browser()
     print("HERE")
     browser.get('https://flpnwc-aj982psom1.dispatcher.us3.hana.ondemand.com/sites/regresoseguro')
     browser.implicitly_wait(30)
@@ -62,12 +73,14 @@ def get():
 
     # QR 
     browser.get("https://flpnwc-aj982psom1.dispatcher.us3.hana.ondemand.com/sites/regresoseguro#qr-Display")
-    WebDriverWait(browser, 20).until(expected_conditions.visibility_of_element_located((By.ID, "__data48")))
+    WebDriverWait(browser, 10).until(expected_conditions.visibility_of_element_located((By.ID, "__data48")))
     browser.set_window_size(400, 800)
     print("here4")
     # Screenshot
     qr_image_binary = browser.get_screenshot_as_png()
     print("here5")
+
+    browser.quit()
 
     return send_file(
         io.BytesIO(qr_image_binary),
