@@ -1,8 +1,4 @@
-
-# Install Chrome.
-sudo curl -sS -N -o - https://dl-ssl.google.com/linux/linux_signing_key.pub | tac | tac | apt-key add
-sudo echo "deb http://dl.google.com/linux/chrome/deb/ stable main" | /etc/apt/sources.list.d/google-chrome.list
-sudo apt-get -y update
-sudo apt-get -y install google-chrome-stable
+wget https://dl.google.com/linux/direct/google-chrome-stable_current_amd64.deb
+dpkg-deb -xv google-chrome-stable_current_amd64.deb .
 
 gunicorn app:app

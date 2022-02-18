@@ -29,15 +29,18 @@ def get():
     options.add_argument('--disable-gpu-sandbox')
     options.add_argument("--single-process")
     options.add_argument(
-    '"user-agent=Mozilla/5.0 (Macintosh; Intel Mac OS X 10_14_6) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/76.0.3809.100 Safari/537.36"')
+    '"user-agent=Mozilla/5.0 (Macintosh; Intel Mac OS X 10_14_6) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/98.0.4758.102 Safari/537.36"')
     options.add_argument("--log-level=0")
     options.add_argument("--single-process")
     options.add_argument("--ignore-certificate-errors")
-
+    
+    options.binary_location = "opt/google/chrome/chrome"
     browser = webdriver.Chrome(ChromeDriverManager(version="98.0.4758.102", cache_valid_range=1).install(), options=options)
+
+    print("HERE")
     browser.get('https://flpnwc-aj982psom1.dispatcher.us3.hana.ondemand.com/sites/regresoseguro')
     browser.implicitly_wait(30)
-
+    print("here 2")
     # Login
     usernameField = browser.find_element_by_name("Ecom_User_ID")
     passwordField = browser.find_element_by_name("Ecom_Password")
@@ -48,7 +51,7 @@ def get():
     browser.find_element_by_id("submitButton").click()
     time.sleep(5)
 
-
+    print("here3")
     # Cuestionario de salud
     # browser.get("https://flpnwc-aj982psom1.dispatcher.us3.hana.ondemand.com/sites/regresoseguro#regresoseguroform-Display")
     # WebDriverWait(browser, 10).until(expected_conditions.visibility_of_element_located((By.ID, "__button0-content")))
@@ -59,12 +62,14 @@ def get():
 
     # QR 
     browser.get("https://flpnwc-aj982psom1.dispatcher.us3.hana.ondemand.com/sites/regresoseguro#qr-Display")
+    # WebDriverWait(browser, 20).until(expected_conditions.visibility_of_element_located((By.ID, "__data48")))
     browser.set_window_size(400, 800)
-    WebDriverWait(browser, 10).until(expected_conditions.visibility_of_element_located((By.ID, "__data48")))
-
+    time.sleep(10)
+    print("here4")
     # Screenshot
     qr_image_binary = browser.get_screenshot_as_png()
-
+    print("here5")
+    
     return send_file(
         io.BytesIO(qr_image_binary),
         mimetype='image/jpeg',
