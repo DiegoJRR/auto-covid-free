@@ -18,7 +18,7 @@ api = Api(app)
 @app.route('/')
 def test_endpoint():
     return {"hey!": "Nothing to see here"}
-    
+
 @app.route('/get-qr')
 def get():
     options = Options()
@@ -34,7 +34,7 @@ def get():
     options.add_argument("--single-process")
     options.add_argument("--ignore-certificate-errors")
 
-    browser = webdriver.Chrome(ChromeDriverManager().install(), options=options)
+    browser = webdriver.Chrome(ChromeDriverManager(version="98.0.4758.102", cache_valid_range=1).install(), options=options)
     browser.get('https://flpnwc-aj982psom1.dispatcher.us3.hana.ondemand.com/sites/regresoseguro')
     browser.implicitly_wait(30)
 
