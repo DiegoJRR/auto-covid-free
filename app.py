@@ -49,7 +49,7 @@ def get():
     passwordField.send_keys(request.args.get("password"))
 
     browser.find_element_by_id("submitButton").click()
-    time.sleep(5)
+    time.sleep(3)
 
     print("here3")
     # Cuestionario de salud
@@ -62,14 +62,13 @@ def get():
 
     # QR 
     browser.get("https://flpnwc-aj982psom1.dispatcher.us3.hana.ondemand.com/sites/regresoseguro#qr-Display")
-    # WebDriverWait(browser, 20).until(expected_conditions.visibility_of_element_located((By.ID, "__data48")))
+    WebDriverWait(browser, 20).until(expected_conditions.visibility_of_element_located((By.ID, "__data48")))
     browser.set_window_size(400, 800)
-    time.sleep(10)
     print("here4")
     # Screenshot
     qr_image_binary = browser.get_screenshot_as_png()
     print("here5")
-    
+
     return send_file(
         io.BytesIO(qr_image_binary),
         mimetype='image/jpeg',
