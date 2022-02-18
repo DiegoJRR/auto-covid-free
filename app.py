@@ -15,6 +15,10 @@ import io
 app = Flask(__name__)
 api = Api(app)
 
+@app.route('/')
+def test_endpoint():
+    return {"hey!": "Nothing to see here"}
+    
 @app.route('/get-qr')
 def get():
     options = Options()
