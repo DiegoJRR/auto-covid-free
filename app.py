@@ -15,7 +15,18 @@ import io
 app = Flask(__name__)
 api = Api(app)
 
-def get_browser():
+@app.route('/')
+def test_endpoint():
+    return {"hey!": "Nothing to see here"}
+
+@app.route('/cache-driver')
+def cache_driver():
+    ChromeDriverManager(version="98.0.4758.102", cache_valid_range=1).install()
+
+    return {"cached": "webdriver"}
+
+@app.route('/get-qr')
+def get():
     options = Options()
     options.headless = True
     options.add_argument("--disable-gpu")
@@ -32,22 +43,6 @@ def get_browser():
     options.binary_location = "opt/google/chrome/chrome"
     browser = webdriver.Chrome(ChromeDriverManager(version="98.0.4758.102", cache_valid_range=1).install(), options=options)
 
-    return browser
-
-
-@app.route('/')
-def test_endpoint():
-    return {"hey!": "Nothing to see here"}
-
-@app.route('/cache-driver')
-def cache_driver():
-    ChromeDriverManager(version="98.0.4758.102", cache_valid_range=1).install()
-
-    return {"cached": "webdriver"}
-
-@app.route('/get-qr')
-def get():
-    browser = get_browser()
     print("HERE")
     browser.get('https://flpnwc-aj982psom1.dispatcher.us3.hana.ondemand.com/sites/regresoseguro')
     browser.implicitly_wait(30)
