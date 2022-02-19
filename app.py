@@ -34,8 +34,8 @@ def get():
     options.add_argument('--disable-dev-shm-usage')
     options.add_argument('--disable-gpu-sandbox')
     options.add_argument("--single-process")
-    options.add_argument(
-    '"user-agent=Mozilla/5.0 (Macintosh; Intel Mac OS X 10_14_6) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/98.0.4758.102 Safari/537.36"')
+    # options.add_argument(
+    # '"user-agent=Mozilla/5.0 (Macintosh; Intel Mac OS X 10_14_6) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/98.0.4758.102 Safari/537.36"')
     options.add_argument("--log-level=0")
     options.add_argument("--single-process")
     options.add_argument("--ignore-certificate-errors")
