@@ -1,4 +1,0 @@
-
-
-
-# class AutoQuestionnaire(Resource):

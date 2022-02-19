@@ -69,8 +69,9 @@ def get():
     # QR 
     browser.get("https://flpnwc-aj982psom1.dispatcher.us3.hana.ondemand.com/sites/regresoseguro#qr-Display")
     try:
-        WebDriverWait(browser, 40).until(expected_conditions.presence_of_element_located((By.ID, "__data48")))
+        WebDriverWait(browser, 10).until(expected_conditions.presence_of_element_located((By.ID, "__data48")))
     except:
+        print("Didnt find qr, taking screenshot anyway")
         pass
     
     print("here4")
