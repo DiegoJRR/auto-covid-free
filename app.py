@@ -41,7 +41,7 @@ def get():
     options.add_argument("--ignore-certificate-errors")
     
     options.binary_location = "opt/google/chrome/chrome"
-    browser = webdriver.Chrome(ChromeDriverManager(version="98.0.4758.102", cache_valid_range=1).install(), options=options)
+    browser = webdriver.Chrome(ChromeDriverManager().install(), options=options)
 
     print("HERE")
     browser.get('https://flpnwc-aj982psom1.dispatcher.us3.hana.ondemand.com/sites/regresoseguro')
