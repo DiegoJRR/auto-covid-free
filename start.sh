@@ -1,4 +1,7 @@
 wget https://dl.google.com/linux/direct/google-chrome-stable_current_amd64.deb
 dpkg-deb -xv google-chrome-stable_current_amd64.deb .
+rm google-chrome-stable_current_amd64.deb
 
-gunicorn app:app --worker-class gevent --timeout 600
+alias google-chrome="opt/google/chrome/chrome"
+
+gunicorn app:app --timeout 600
