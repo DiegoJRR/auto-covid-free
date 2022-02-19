@@ -55,7 +55,7 @@ def get():
     passwordField.send_keys(request.args.get("password"))
 
     browser.find_element_by_id("submitButton").click()
-    time.sleep(3)
+    time.sleep(5)
 
     print("here3")
     # Cuestionario de salud
