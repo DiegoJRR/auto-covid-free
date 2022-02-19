@@ -68,7 +68,11 @@ def get():
 
     # QR 
     browser.get("https://flpnwc-aj982psom1.dispatcher.us3.hana.ondemand.com/sites/regresoseguro#qr-Display")
-    WebDriverWait(browser, 40).until(expected_conditions.visibility_of_element_located((By.ID, "__data48")))
+    try:
+        WebDriverWait(browser, 40).until(expected_conditions.presence_of_element_located((By.ID, "__data48")))
+    except:
+        pass
+    
     print("here4")
     
     browser.set_window_size(400, 800)
