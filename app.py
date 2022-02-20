@@ -30,13 +30,6 @@ def get():
     options = Options()
     options.headless = True
     options.add_argument("--disable-gpu")
-    options.add_argument("--no-sandbox")
-    options.add_argument('--disable-dev-shm-usage')
-    options.add_argument('--disable-gpu-sandbox')
-    options.add_argument("--single-process")
-    # options.add_argument(
-    # '"user-agent=Mozilla/5.0 (Macintosh; Intel Mac OS X 10_14_6) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/98.0.4758.102 Safari/537.36"')
-    options.add_argument("--log-level=0")
     options.add_argument("--single-process")
     options.add_argument("--ignore-certificate-errors")
     
@@ -47,6 +40,7 @@ def get():
     browser.get('https://flpnwc-aj982psom1.dispatcher.us3.hana.ondemand.com/sites/regresoseguro')
     browser.implicitly_wait(30)
     print("here 2")
+    
     # Login
     usernameField = browser.find_element_by_name("Ecom_User_ID")
     passwordField = browser.find_element_by_name("Ecom_Password")
@@ -71,7 +65,6 @@ def get():
     browser.get("https://flpnwc-aj982psom1.dispatcher.us3.hana.ondemand.com/sites/regresoseguro#qr-Display")
     try:
         WebDriverWait(browser, 20).until(expected_conditions.visibility_of_element_located((By.ID, "__data48")))
-        time.sleep(20)
     except:
         print("Didnt find qr, taking screenshot anyway")
         pass
