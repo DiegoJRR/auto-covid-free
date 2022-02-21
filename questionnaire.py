@@ -50,6 +50,7 @@ def answer_questionnaire(matricula, password, nombre, telefono, date_string):
         browser.find_element_by_id("__mbox-btn-0-inner").click()
         time.sleep(2)
 
+        print("DID ANSWER QUESTIONNAIRE")
         pass
     except:
         print("Questionnaire answered already")
