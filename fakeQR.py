@@ -1,15 +1,7 @@
 import qrcode
-from datetime import date
 import io
-import os 
 
-def get_fake_qr(matricula: str, nombre: str, telefono: str):
-    os.environ['TZ'] = 'America/Mexico_City'
-    today = date.today()
-    
-    # d/m/YY
-    date_string = today.strftime("%#d/%#m/%Y")
-
+def get_fake_qr(matricula: str, nombre: str, telefono: str, date_string):
     #Creating an instance of qrcode
     qr = qrcode.QRCode(
             version=1,
