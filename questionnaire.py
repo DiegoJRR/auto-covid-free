@@ -80,8 +80,4 @@ def answer_questionnaire(matricula, password, nombre, telefono, date_string):
 
     browser.quit()
 
-    return send_file(
-        io.BytesIO(qr_image_binary),
-        mimetype='image/jpeg',
-        as_attachment=True,
-        attachment_filename='%s.png' % "QR")
+    return qr_image_binary
