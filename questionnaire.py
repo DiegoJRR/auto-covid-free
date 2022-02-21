@@ -10,6 +10,7 @@ from PIL import Image
 from functools import lru_cache
 import os
 from datetime import date
+import io
 
 
 from fakeQR import get_fake_qr
@@ -41,22 +42,46 @@ def answer_questionnaire(matricula, password, nombre, telefono, date_string):
     time.sleep(5)
 
     # Cuestionario de salud
-    try:
-        browser.get("https://flpnwc-aj982psom1.dispatcher.us3.hana.ondemand.com/sites/regresoseguro#regresoseguroform-Display")
-        browser.implicitly_wait(30)
-        WebDriverWait(browser, 10).until(expected_conditions.visibility_of_element_located((By.ID, "__button0-content")))
-        browser.find_element_by_id("__button0-content").click()
-        time.sleep(2)
-        browser.find_element_by_id("__mbox-btn-0-inner").click()
-        time.sleep(2)
+    # try:
+    #     browser.get("https://flpnwc-aj982psom1.dispatcher.us3.hana.ondemand.com/sites/regresoseguro#regresoseguroform-Display")
+    #     browser.implicitly_wait(30)
+    #     WebDriverWait(browser, 10).until(expected_conditions.visibility_of_element_located((By.ID, "__button0-content")))
+    #     browser.find_element_by_id("__button0-content").click()
+    #     time.sleep(2)
+    #     browser.find_element_by_id("__mbox-btn-0-inner").click()
+    #     time.sleep(2)
 
-        print("DID ANSWER QUESTIONNAIRE")
-        pass
+    #     print("DID ANSWER QUESTIONNAIRE")
+    #     pass
+    # except:
+    #     print("Questionnaire answered already")
+
+    # browser.quit()
+    
+    # qr_image_binary = get_fake_qr(matricula, nombre, telefono, date_string)
+
+    # return qr_image_binary
+
+        # QR 
+
+    browser.set_window_size(400, 800)
+    browser.get("https://flpnwc-aj982psom1.dispatcher.us3.hana.ondemand.com/sites/regresoseguro#qr-Display")
+    try:
+        WebDriverWait(browser, 10).until(expected_conditions.presence_of_element_located((By.ID, "__data48")))
     except:
-        print("Questionnaire answered already")
+        print("Didnt find qr, taking screenshot anyway")
+        pass
+    
+    print("here4")
+    
+    # Screenshot
+    qr_image_binary = browser.get_screenshot_as_png()
+    print("here5")
 
     browser.quit()
-    
-    qr_image_binary = get_fake_qr(matricula, nombre, telefono, date_string)
 
-    return qr_image_binary
+    return send_file(
+        io.BytesIO(qr_image_binary),
+        mimetype='image/jpeg',
+        as_attachment=True,
+        attachment_filename='%s.png' % "QR")
