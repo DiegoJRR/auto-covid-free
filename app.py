@@ -8,9 +8,10 @@ from selenium.webdriver.support.ui import WebDriverWait
 import time
 from PIL import Image
 from webdriver_manager.chrome import ChromeDriverManager
-
 from flask_restful import Api
 import io
+
+from fakeQR import get_fake_qr
 
 app = Flask(__name__)
 api = Api(app)
@@ -36,51 +37,40 @@ def get():
     options.binary_location = "opt/google/chrome/chrome"
     browser = webdriver.Chrome(ChromeDriverManager().install(), options=options)
 
-    print("HERE")
     browser.get('https://flpnwc-aj982psom1.dispatcher.us3.hana.ondemand.com/sites/regresoseguro')
     browser.implicitly_wait(30)
-    print("here 2")
     
     # Login
     usernameField = browser.find_element_by_name("Ecom_User_ID")
     passwordField = browser.find_element_by_name("Ecom_Password")
     
-    usernameField.send_keys(request.args.get("email"))
-    passwordField.send_keys(request.args.get("password"))
+    matricula = request.args.get("matricula")
+    password = request.args.get("password")
+    telefono = request.args.get("telefono")
+    nombre = request.args.get("nombre")
+
+    usernameField.send_keys(matricula + "@itesm.mx")
+    passwordField.send_keys(password)
 
     browser.find_element_by_id("submitButton").click()
     time.sleep(5)
 
-    print("here3")
     # Cuestionario de salud
-    # browser.get("https://flpnwc-aj982psom1.dispatcher.us3.hana.ondemand.com/sites/regresoseguro#regresoseguroform-Display")
-    # WebDriverWait(browser, 10).until(expected_conditions.visibility_of_element_located((By.ID, "__button0-content")))
-    # browser.find_element_by_id("__button0-content").click()
-    # time.sleep(1)
-    # browser.find_element_by_id("__mbox-btn-0-inner").click()
-    # time.sleep(2)
-
-    # QR 
-    browser.set_window_size(400, 800)
-    browser.get("https://flpnwc-aj982psom1.dispatcher.us3.hana.ondemand.com/sites/regresoseguro#qr-Display")
-
     try:
-        WebDriverWait(browser, 20).until(expected_conditions.visibility_of_element_located((By.ID, "__data48")))
-    except:
-        print("HERE")
-        browser.get('https://flpnwc-aj982psom1.dispatcher.us3.hana.ondemand.com/sites/regresoseguro#regresoseguroform-Display')
-        browser.implicitly_wait(30)
-        browser.get("https://flpnwc-aj982psom1.dispatcher.us3.hana.ondemand.com/sites/regresoseguro#qr-Display")
-        WebDriverWait(browser, 10).until(expected_conditions.visibility_of_element_located((By.ID, "__data48")))
+        browser.get("https://flpnwc-aj982psom1.dispatcher.us3.hana.ondemand.com/sites/regresoseguro#regresoseguroform-Display")
+        WebDriverWait(browser, 5).until(expected_conditions.visibility_of_element_located((By.ID, "__button0-content")))
+        browser.find_element_by_id("__button0-content").click()
+        time.sleep(1)
+        browser.find_element_by_id("__mbox-btn-0-inner").click()
+        time.sleep(1)
+
         pass
-    
-    print("here4")
-    
-    # Screenshot
-    qr_image_binary = browser.get_screenshot_as_png()
-    print("here5")
+    except:
+        print("Questionnaire answered already")
 
     browser.quit()
+    
+    qr_image_binary = get_fake_qr(matricula, nombre, telefono)
 
     return send_file(
         io.BytesIO(qr_image_binary),
