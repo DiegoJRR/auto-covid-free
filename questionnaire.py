@@ -43,11 +43,12 @@ def answer_questionnaire(matricula, password, nombre, telefono, date_string):
     # Cuestionario de salud
     try:
         browser.get("https://flpnwc-aj982psom1.dispatcher.us3.hana.ondemand.com/sites/regresoseguro#regresoseguroform-Display")
-        WebDriverWait(browser, 5).until(expected_conditions.visibility_of_element_located((By.ID, "__button0-content")))
+        browser.implicitly_wait(30)
+        WebDriverWait(browser, 10).until(expected_conditions.visibility_of_element_located((By.ID, "__button0-content")))
         browser.find_element_by_id("__button0-content").click()
-        time.sleep(1)
+        time.sleep(2)
         browser.find_element_by_id("__mbox-btn-0-inner").click()
-        time.sleep(1)
+        time.sleep(2)
 
         pass
     except:
