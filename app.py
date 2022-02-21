@@ -63,10 +63,15 @@ def get():
     # QR 
     browser.set_window_size(400, 800)
     browser.get("https://flpnwc-aj982psom1.dispatcher.us3.hana.ondemand.com/sites/regresoseguro#qr-Display")
+
     try:
         WebDriverWait(browser, 20).until(expected_conditions.visibility_of_element_located((By.ID, "__data48")))
     except:
-        print("Didnt find qr, taking screenshot anyway")
+        print("HERE")
+        browser.get('https://flpnwc-aj982psom1.dispatcher.us3.hana.ondemand.com/sites/regresoseguro#regresoseguroform-Display')
+        browser.implicitly_wait(30)
+        browser.get("https://flpnwc-aj982psom1.dispatcher.us3.hana.ondemand.com/sites/regresoseguro#qr-Display")
+        WebDriverWait(browser, 10).until(expected_conditions.visibility_of_element_located((By.ID, "__data48")))
         pass
     
     print("here4")
